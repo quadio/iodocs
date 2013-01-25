@@ -1,0 +1,92 @@
+{
+    "endpoints":[
+        {
+            "name":"Product",
+            "methods":[
+                {
+                    "MethodName":"List Merchant Products",
+                    "Synopsis":"Returns a list of products from a specific merchant",
+                    "HTTPMethod":"GET",
+                    "URI":"merchant/:merchantId/product",
+                    "RequiresOAuth":"N",
+                    "parameters":[
+                        {
+                            "Name":"merchantId",
+                            "Required":"Y",
+                            "Default":"",
+                            "Type":"string",
+                            "Description":"Merchant belonging"
+                        },
+                        {
+                            "Name":"offset",
+                            "Required":"N",
+                            "Default":"0",
+                            "Type":"integer",
+                            "Description":"Tells the server to return results starting from this place"
+                        },
+                        {
+                            "Name":"limit",
+                            "Required":"N",
+                            "Default":"25",
+                            "Type":"integer",
+                            "Description":"Restricts the returned result count to this amount."
+                        }
+                    ]
+                },
+                {
+                    "MethodName":"Get Product",
+                    "Synopsis":"Gets a single product by a product id.",
+                    "HTTPMethod":"GET",
+                    "URI":"product/:productId",
+                    "RequiresOAuth":"N",
+                    "parameters":[
+                        {
+                            "Name":"productId",
+                            "Required":"Y",
+                            "Default":"",
+                            "Type":"integer",
+                            "Description":"Product "
+                        }
+                    ]
+                },
+                {
+                    "MethodName":"Create Product",
+                    "Synopsis":"This method allows you to retrieve user objects",
+                    "HTTPMethod":"GET",
+                    "URI":"product/:productId",
+                    "RequiresOAuth":"N",
+                    "parameters":[
+                        {
+                            "Name":"productId",
+                            "Required":"Y",
+                            "Default":"",
+                            "Type":"integer",
+                            "Description":"Product "
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Venue",
+            "methods": []
+        },
+        {
+            "name": "Users",
+            "methods": []
+        },
+        {
+            "name": "Merchant",
+            "methods": []
+        },
+        {
+            "name": "Customer",
+            "methods": []
+        },
+        {
+            "name": "Host",
+            "methods": []
+        }
+    ]
+}
+
