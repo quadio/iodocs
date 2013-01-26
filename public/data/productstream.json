@@ -7,7 +7,7 @@
                     "MethodName":"List Merchant Products",
                     "Synopsis":"Returns a list of products from a specific merchant",
                     "HTTPMethod":"GET",
-                    "URI":"merchant/:merchantId/product",
+                    "URI":"/merchant/:merchantId/product",
                     "RequiresOAuth":"N",
                     "parameters":[
                         {
@@ -37,7 +37,7 @@
                     "MethodName":"Get Product",
                     "Synopsis":"Gets a single product by a product id.",
                     "HTTPMethod":"GET",
-                    "URI":"product/:productId",
+                    "URI":"/product/:productId",
                     "RequiresOAuth":"N",
                     "parameters":[
                         {
@@ -53,7 +53,7 @@
                     "MethodName":"Create Product",
                     "Synopsis":"This method allows you to retrieve user objects",
                     "HTTPMethod":"GET",
-                    "URI":"product/:productId",
+                    "URI":"/product/:productId",
                     "RequiresOAuth":"N",
                     "parameters":[
                         {

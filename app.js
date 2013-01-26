@@ -38,10 +38,11 @@ var express     = require('express'),
 
 // Configuration
 try {
+    console.log('Reading configuration...');
     var configJSON = fs.readFileSync(__dirname + "/config.json");
     var config = JSON.parse(configJSON.toString());
 } catch(e) {
-    console.error("File config.json not found or is invalid.  Try: `cp config.json.sample config.json`");
+    console.error("File config.json not found or is invalid.  Try: `cp config.json.sample config.json`. Error: " + e);
     process.exit(1);
 }
 
@@ -62,7 +63,7 @@ if (process.env.REDISTOGO_URL) {
 
 db.on("error", function(err) {
     if (config.debug) {
-         console.log("Error " + err);
+        console.log("Error " + err);
     }
 });
 
@@ -74,7 +75,7 @@ fs.readFile(__dirname +'/public/data/apiconfig.json', 'utf-8', function(err, dat
     if (err) throw err;
     apisConfig = JSON.parse(data);
     if (config.debug) {
-         console.log(util.inspect(apisConfig));
+        console.log(util.inspect(apisConfig));
     }
 });
 
@@ -131,12 +132,12 @@ function oauth(req, res, next) {
             refererURL = url.parse(req.headers.referer),
             callbackURL = refererURL.protocol + '//' + refererURL.host + '/authSuccess/' + apiName,
             oa = new OAuth(apiConfig.oauth.requestURL,
-                           apiConfig.oauth.accessURL,
-                           apiKey,
-                           apiSecret,
-                           apiConfig.oauth.version,
-                           callbackURL,
-                           apiConfig.oauth.crypt);
+                apiConfig.oauth.accessURL,
+                apiKey,
+                apiSecret,
+                apiConfig.oauth.version,
+                callbackURL,
+                apiConfig.oauth.crypt);
 
         if (config.debug) {
             console.log('OAuth type: ' + apiConfig.oauth.type);
@@ -221,9 +222,9 @@ function oauthSuccess(req, res, next) {
             console.log(util.inspect(err));
         }
         oauthRequestToken = result[0],
-        oauthRequestTokenSecret = result[1],
-        apiKey = result[2],
-        apiSecret = result[3];
+            oauthRequestTokenSecret = result[1],
+            apiKey = result[2],
+            apiSecret = result[3];
 
         if (config.debug) {
             console.log(util.inspect(">>"+oauthRequestToken));
@@ -232,12 +233,12 @@ function oauthSuccess(req, res, next) {
         };
 
         var oa = new OAuth(apiConfig.oauth.requestURL,
-                           apiConfig.oauth.accessURL,
-                           apiKey,
-                           apiSecret,
-                           apiConfig.oauth.version,
-                           null,
-                           apiConfig.oauth.crypt);
+            apiConfig.oauth.accessURL,
+            apiKey,
+            apiSecret,
+            apiConfig.oauth.version,
+            null,
+            apiConfig.oauth.crypt);
 
         if (config.debug) {
             console.log(util.inspect(oa));
@@ -284,20 +285,20 @@ function processRequest(req, res, next) {
         apiKey = reqQuery.apiKey,
         apiSecret = reqQuery.apiSecret,
         apiName = reqQuery.apiName
-        apiConfig = apisConfig[apiName],
+    apiConfig = apisConfig[apiName],
         key = req.sessionID + ':' + apiName;
 
     // Extract custom headers from the params
-    for( var param in params ) 
+    for( var param in params )
     {
-         if (params.hasOwnProperty(param)) 
-         {
-            if (params[param] !== '' && locations[param] == 'header' ) 
+        if (params.hasOwnProperty(param))
+        {
+            if (params[param] !== '' && locations[param] == 'header' )
             {
                 customHeaders[param] = params[param];
                 delete params[param];
             }
-         }
+        }
     }
 
     // Replace placeholders in the methodURL with matching params
@@ -352,10 +353,10 @@ function processRequest(req, res, next) {
             };
 
             db.mget([key + ':apiKey',
-                     key + ':apiSecret',
-                     key + ':accessToken',
-                     key + ':accessTokenSecret'
-                ],
+                key + ':apiSecret',
+                key + ':accessToken',
+                key + ':accessTokenSecret'
+            ],
                 function(err, results) {
 
                     var apiKey = (typeof reqQuery.apiKey == "undefined" || reqQuery.apiKey == "undefined")?results[0]:reqQuery.apiKey,
@@ -366,14 +367,14 @@ function processRequest(req, res, next) {
                     console.log(apiSecret);
                     console.log(accessToken);
                     console.log(accessTokenSecret);
-                    
+
                     var oa = new OAuth(apiConfig.oauth.requestURL || null,
-                                       apiConfig.oauth.accessURL || null,
-                                       apiKey || null,
-                                       apiSecret || null,
-                                       apiConfig.oauth.version || null,
-                                       null,
-                                       apiConfig.oauth.crypt);
+                        apiConfig.oauth.accessURL || null,
+                        apiKey || null,
+                        apiSecret || null,
+                        apiConfig.oauth.version || null,
+                        null,
+                        apiConfig.oauth.crypt);
 
                     if (config.debug) {
                         console.log('Access token: ' + accessToken);
@@ -413,12 +414,12 @@ function processRequest(req, res, next) {
 
             var body,
                 oa = new OAuth(null,
-                               null,
-                               apiKey || null,
-                               apiSecret || null,
-                               apiConfig.oauth.version || null,
-                               null,
-                               apiConfig.oauth.crypt);
+                    null,
+                    apiKey || null,
+                    apiSecret || null,
+                    apiConfig.oauth.version || null,
+                    null,
+                    apiConfig.oauth.crypt);
 
             var resource = options.protocol + '://' + options.host + options.path,
                 cb = function(error, data, response) {
@@ -532,7 +533,7 @@ function processRequest(req, res, next) {
 
             for (var x = 0, len = reqQuery.headerNames.length; x < len; x++) {
                 if (config.debug) {
-                  console.log('Setting header: ' + reqQuery.headerNames[x] + ':' + reqQuery.headerValues[x]);
+                    console.log('Setting header: ' + reqQuery.headerNames[x] + ':' + reqQuery.headerValues[x]);
                 };
                 if (reqQuery.headerNames[x] != '') {
                     headers[reqQuery.headerNames[x]] = reqQuery.headerValues[x];
@@ -617,12 +618,12 @@ function processRequest(req, res, next) {
                 next();
             })
         }).on('error', function(e) {
-            if (config.debug) {
-                console.log('HEADERS: ' + JSON.stringify(res.headers));
-                console.log("Got error: " + e.message);
-                console.log("Error: " + util.inspect(e));
-            };
-        });
+                if (config.debug) {
+                    console.log('HEADERS: ' + JSON.stringify(res.headers));
+                    console.log("Got error: " + e.message);
+                    console.log("Error: " + util.inspect(e));
+                };
+            });
 
         if (requestBody) {
             apiCall.end(requestBody, 'utf-8');
@@ -638,7 +639,7 @@ function processRequest(req, res, next) {
 // Passes variables to the view
 app.dynamicHelpers({
     session: function(req, res) {
-    // If api wasn't passed in as a parameter, check the path to see if it's there
+        // If api wasn't passed in as a parameter, check the path to see if it's there
         if (!req.params.api) {
             pathName = req.url.replace('/','');
             // Is it a valid API - if there's a config file we can assume so
@@ -647,7 +648,7 @@ app.dynamicHelpers({
                     req.params.api = pathName;
                 }
             });
-        }       
+        }
         // If the cookie says we're authed for this particular API, set the session to authed as well
         if (req.params.api && req.session[req.params.api] && req.session[req.params.api]['authed']) {
             req.session['authed'] = true;
@@ -680,9 +681,16 @@ app.dynamicHelpers({
 // Routes
 //
 app.get('/', function(req, res) {
-    res.render('listAPIs', {
-        title: config.title
-    });
+    if(config.defaultApi) {
+        req.params.api=config.defaultApi;
+        res.render('api');
+    }
+    else {
+        res.render('listAPIs', {
+            title: config.title
+
+        });
+    }
 });
 
 // Process the API request
@@ -708,8 +716,8 @@ app.get('/authSuccess/:api', oauthSuccess, function(req, res) {
 });
 
 app.post('/upload', function(req, res) {
-  console.log(req.body.user);
-  res.redirect('back');
+    console.log(req.body.user);
+    res.redirect('back');
 });
 
 // API shortname, all lowercase
@@ -722,6 +730,7 @@ app.get('/:api([^\.]+)', function(req, res) {
 
 if (!module.parent) {
     var port = process.env.PORT || config.port;
+    console.log("Port: %d", port);
     app.listen(port);
-    console.log("Express server listening on port %d", app.address().port);
+    //console.log("Express server listening on port %d", app.address().port);
 }

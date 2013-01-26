@@ -1,24 +1,14 @@
 {
-  "name": "iodocs",
-  "version": "0.0.1",
-  "description": "Live API Documentation and Browsing",
+  "name": "product-stream-docs",
+  "version": "0.0.1-11",
+  "description": "Live Documentation for ProductStream",
   "homepage": "http://mashery.com",
-  "keywords": [
-    "livedocs",
-    "iodocs",
-    "documentation",
-    "api"
-  ],
-  "author": "Mashery, Inc. <nmansilla@mashery.com>",
-  "contributors": [
-    "Kelly Miyashiro <kelly@mashery.com.com>",
-    "Neil Mansilla <neil@mashery.com>",
-    "Mike Squires <msquires@mashery.com>",
-    "Uriah Welcome <uriah@mashery.com>"
-  ],
+  "keywords": [],
+  "author": "Ryan Connelly <ryan@quad.io>",
+  "contributors": [],
   "repository": {
     "type": "git",
-    "url": "git://github.com/mashery/iodocs.git"
+    "url": "https://github.com/quadio/iodocs.git"
   },
   "dependencies": {
     "connect-redis": "1.0.6",
@@ -32,5 +22,10 @@
   "main": "index",
   "engines": {
     "node": ">= 0.4.0"
+  },
+  "subdomain": "product-stream-docs",
+  "scripts": {
+    "predeploy": "scripts/getjson.sh",
+    "start": "app.js"
   }
 }
